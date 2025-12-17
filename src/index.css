@@ -1,0 +1,141 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Playfair+Display:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
+
+@layer base {
+  :root {
+    --primary: 99 102 241;
+    --secondary: 168 85 247;
+    --accent: 236 72 153;
+  }
+
+  * {
+    @apply scroll-smooth;
+  }
+
+  body {
+    @apply bg-slate-950 text-slate-100 antialiased;
+    font-family: 'Inter', sans-serif;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: 'Playfair Display', serif;
+  }
+
+  code, pre {
+    font-family: 'JetBrains Mono', monospace;
+  }
+
+  ::selection {
+    @apply bg-indigo-500/30 text-white;
+  }
+
+  ::-webkit-scrollbar {
+    @apply w-2;
+  }
+
+  ::-webkit-scrollbar-track {
+    @apply bg-slate-900;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    @apply bg-indigo-600 rounded-full;
+  }
+}
+
+@layer components {
+  .gradient-text {
+    @apply bg-gradient-to-r from-indigo-400 via-purple-400 to-pink-400 bg-clip-text text-transparent;
+  }
+
+  .gradient-bg {
+    @apply bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-600;
+  }
+
+  .glass {
+    @apply bg-white/5 backdrop-blur-xl border border-white/10;
+  }
+
+  .glass-dark {
+    @apply bg-slate-900/80 backdrop-blur-xl border border-slate-700/50;
+  }
+
+  .card {
+    @apply glass rounded-2xl p-6 transition-all duration-500 hover:bg-white/10 hover:border-white/20 hover:shadow-2xl hover:shadow-indigo-500/10;
+  }
+
+  .card-hover {
+    @apply hover:-translate-y-2 hover:shadow-2xl hover:shadow-indigo-500/20;
+  }
+
+  .btn-primary {
+    @apply px-8 py-4 rounded-xl font-semibold text-white gradient-bg shadow-lg shadow-indigo-500/30 hover:shadow-xl hover:shadow-indigo-500/40 hover:scale-105 transition-all duration-300;
+  }
+
+  .btn-secondary {
+    @apply px-8 py-4 rounded-xl font-semibold text-white glass border-indigo-500/50 hover:bg-indigo-500/20 hover:border-indigo-400 transition-all duration-300;
+  }
+
+  .btn-ghost {
+    @apply px-6 py-3 rounded-lg font-medium text-slate-300 hover:text-white hover:bg-white/10 transition-all duration-300;
+  }
+
+  .section {
+    @apply py-24 md:py-32;
+  }
+
+  .section-title {
+    @apply text-4xl md:text-5xl lg:text-6xl font-bold mb-6;
+  }
+
+  .section-subtitle {
+    @apply text-lg md:text-xl text-slate-400 max-w-2xl;
+  }
+
+  .input {
+    @apply w-full px-5 py-4 rounded-xl bg-slate-800/50 border border-slate-700 text-white placeholder-slate-500 focus:outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/20 transition-all duration-300;
+  }
+
+  .label {
+    @apply block text-sm font-medium text-slate-300 mb-2;
+  }
+
+  .badge {
+    @apply px-3 py-1 text-xs font-medium rounded-full bg-indigo-500/20 text-indigo-300 border border-indigo-500/30;
+  }
+
+  .badge-purple {
+    @apply px-3 py-1 text-xs font-medium rounded-full bg-purple-500/20 text-purple-300 border border-purple-500/30;
+  }
+
+  .badge-pink {
+    @apply px-3 py-1 text-xs font-medium rounded-full bg-pink-500/20 text-pink-300 border border-pink-500/30;
+  }
+
+  .animate-float {
+    animation: float 6s ease-in-out infinite;
+  }
+
+  .animate-glow {
+    animation: glow 2s ease-in-out infinite alternate;
+  }
+
+  .grid-pattern {
+    background-image: 
+      linear-gradient(rgba(99, 102, 241, 0.03) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(99, 102, 241, 0.03) 1px, transparent 1px);
+    background-size: 60px 60px;
+  }
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-20px); }
+}
+
+@keyframes glow {
+  from { box-shadow: 0 0 20px rgba(99, 102, 241, 0.3); }
+  to { box-shadow: 0 0 40px rgba(99, 102, 241, 0.6); }
+}
