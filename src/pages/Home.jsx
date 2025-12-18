@@ -1,8 +1,7 @@
 import { Link } from 'react-router-dom'
 import { motion } from 'framer-motion'
-import { FiArrowRight, FiGithub, FiLinkedin, FiTwitter, FiDownload, FiCode, FiLayers, FiZap } from 'react-icons/fi'
+import { FiArrowRight, FiGithub, FiLinkedin, FiTwitter, FiBookOpen, FiServer, FiUpload } from 'react-icons/fi'
 import { useEffect, useState } from 'react'
-import portfolioService from '../services/portfolio'
 
 // Animated background orbs
 const BackgroundOrbs = () => (
@@ -13,208 +12,76 @@ const BackgroundOrbs = () => (
   </div>
 )
 
-// Hero Section
-const HeroSection = ({ profile }) => {
-  const roles = ['Full Stack Developer', 'UI/UX Designer', 'Problem Solver', 'Creative Thinker']
-  const [roleIndex, setRoleIndex] = useState(0)
-
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setRoleIndex((prev) => (prev + 1) % roles.length)
-    }, 3000)
-    return () => clearInterval(interval)
-  }, [])
+// Hero Section for CMS platform
+const HeroSection = () => {
+  const appName = import.meta.env.VITE_APP_NAME || 'Portfolio CMS'
+  const adminUrl = import.meta.env.VITE_ADMIN_URL || 'http://localhost:5174'
 
   return (
     <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
       <BackgroundOrbs />
       <div className="absolute inset-0 grid-pattern" />
-      
+
       <div className="container mx-auto px-6 pt-32 pb-20 relative z-10">
-        <div className="max-w-5xl mx-auto text-center">
-          {/* Badge */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
+        <div className="max-w-4xl mx-auto text-center">
+          <motion.h1
+            initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
-            className="inline-flex items-center gap-2 px-4 py-2 rounded-full glass mb-8"
+            className="text-4xl md:text-6xl font-bold mb-4"
           >
-            <span className="w-2 h-2 bg-green-500 rounded-full animate-pulse" />
-            <span className="text-slate-300 text-sm">Available for work</span>
-          </motion.div>
-
-          {/* Main Heading */}
-          <motion.h1
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.1 }}
-            className="text-5xl md:text-7xl lg:text-8xl font-bold mb-6 leading-tight"
-          >
-            Hi, I'm{' '}
-            <span className="gradient-text">{profile?.name || 'Developer'}</span>
+            {appName}
           </motion.h1>
 
-          {/* Animated Role */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.2 }}
-            className="h-12 md:h-16 mb-8 overflow-hidden"
-          >
-            <motion.p
-              key={roleIndex}
-              initial={{ y: 40, opacity: 0 }}
-              animate={{ y: 0, opacity: 1 }}
-              exit={{ y: -40, opacity: 0 }}
-              transition={{ duration: 0.5 }}
-              className="text-2xl md:text-4xl text-slate-400 font-light"
-            >
-              {roles[roleIndex]}
-            </motion.p>
-          </motion.div>
-
-          {/* Description */}
           <motion.p
-            initial={{ opacity: 0, y: 20 }}
+            initial={{ opacity: 0, y: 12 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.3 }}
-            className="text-lg md:text-xl text-slate-400 max-w-2xl mx-auto mb-12 leading-relaxed"
+            transition={{ duration: 0.6, delay: 0.1 }}
+            className="text-lg text-slate-400 mb-8"
           >
-            {profile?.bio || 'I craft beautiful digital experiences with modern technologies. Passionate about creating impactful solutions that make a difference.'}
+            A lightweight, custom-built CMS platform — API, admin panel, and media management in one place. Manage content for multiple portfolios, projects, blogs and more.
           </motion.p>
 
-          {/* CTA Buttons */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.4 }}
-            className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-16"
-          >
-            <Link to="/projects">
-              <motion.button
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-                className="btn-primary flex items-center gap-2 group"
-              >
-                View My Work
-                <FiArrowRight className="group-hover:translate-x-1 transition-transform" />
-              </motion.button>
+          <motion.div className="flex items-center justify-center gap-4">
+            <a href={adminUrl} target="_blank" rel="noopener noreferrer" className="btn-primary flex items-center gap-2">
+              Open Admin
+              <FiArrowRight />
+            </a>
+            <Link to="/projects" className="btn-secondary flex items-center gap-2">
+              View Demo Site
             </Link>
-            <Link to="/contact">
-              <motion.button
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-                className="btn-secondary flex items-center gap-2"
-              >
-                <FiDownload />
-                Download CV
-              </motion.button>
-            </Link>
-          </motion.div>
-
-          {/* Social Links */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.5 }}
-            className="flex items-center justify-center gap-6"
-          >
-            {[
-              { icon: FiGithub, url: 'https://github.com', label: 'GitHub' },
-              { icon: FiLinkedin, url: 'https://linkedin.com', label: 'LinkedIn' },
-              { icon: FiTwitter, url: 'https://twitter.com', label: 'Twitter' },
-            ].map((social) => (
-              <motion.a
-                key={social.label}
-                href={social.url}
-                target="_blank"
-                rel="noopener noreferrer"
-                whileHover={{ scale: 1.2, y: -2 }}
-                className="text-slate-500 hover:text-white transition-colors"
-              >
-                <social.icon className="w-6 h-6" />
-              </motion.a>
-            ))}
           </motion.div>
         </div>
-
-        {/* Scroll Indicator */}
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 1 }}
-          className="absolute bottom-10 left-1/2 -translate-x-1/2"
-        >
-          <motion.div
-            animate={{ y: [0, 8, 0] }}
-            transition={{ duration: 1.5, repeat: Infinity }}
-            className="w-6 h-10 rounded-full border-2 border-slate-600 flex justify-center pt-2"
-          >
-            <div className="w-1 h-2 bg-slate-400 rounded-full" />
-          </motion.div>
-        </motion.div>
       </div>
     </section>
   )
 }
 
-// Services Section
+// Platform Features Section
 const ServicesSection = () => {
-  const services = [
-    {
-      icon: FiCode,
-      title: 'Web Development',
-      description: 'Building responsive, performant web applications with modern frameworks and best practices.',
-      color: 'from-indigo-500 to-blue-500',
-    },
-    {
-      icon: FiLayers,
-      title: 'UI/UX Design',
-      description: 'Creating intuitive and beautiful user interfaces that provide exceptional user experiences.',
-      color: 'from-purple-500 to-pink-500',
-    },
-    {
-      icon: FiZap,
-      title: 'Performance',
-      description: 'Optimizing applications for speed, accessibility, and search engine visibility.',
-      color: 'from-orange-500 to-red-500',
-    },
+  const features = [
+    { icon: FiServer, title: 'API-first', desc: 'Fully-featured REST API for content models and auth.' },
+    { icon: FiBookOpen, title: 'Admin UI', desc: 'React-based admin panel for CRUD, media uploads and dashboards.' },
+    { icon: FiUpload, title: 'Media & Uploads', desc: 'Built-in media upload endpoints and admin media manager.' },
   ]
 
   return (
     <section className="section relative">
       <div className="container mx-auto px-6">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          className="text-center mb-16"
-        >
-          <h2 className="section-title">
-            What I <span className="gradient-text">Do</span>
-          </h2>
-          <p className="section-subtitle mx-auto">
-            I specialize in building modern web applications with cutting-edge technologies
-          </p>
+        <motion.div className="text-center mb-12">
+          <h2 className="section-title">Platform Features</h2>
+          <p className="section-subtitle mx-auto">A compact CMS platform for managing portfolio sites, projects, blogs, and media.</p>
         </motion.div>
 
-        <div className="grid md:grid-cols-3 gap-8">
-          {services.map((service, index) => (
-            <motion.div
-              key={service.title}
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: index * 0.1 }}
-              whileHover={{ y: -10 }}
-              className="card group"
-            >
-              <div className={`w-14 h-14 rounded-xl bg-gradient-to-r ${service.color} flex items-center justify-center mb-6 group-hover:scale-110 transition-transform`}>
-                <service.icon className="w-7 h-7 text-white" />
+        <div className="grid md:grid-cols-3 gap-6">
+          {features.map((f, i) => (
+            <div key={i} className="p-6 bg-slate-800 rounded-lg">
+              <div className="w-12 h-12 flex items-center justify-center bg-primary-600 rounded mb-4">
+                <f.icon className="w-6 h-6 text-white" />
               </div>
-              <h3 className="text-2xl font-bold text-white mb-4">{service.title}</h3>
-              <p className="text-slate-400 leading-relaxed">{service.description}</p>
-            </motion.div>
+              <h3 className="text-xl font-semibold mb-2">{f.title}</h3>
+              <p className="text-slate-400">{f.desc}</p>
+            </div>
           ))}
         </div>
       </div>
