@@ -1,3 +1,5 @@
+import React from 'react'
+
 function LoadingSpinner({ size = 'md', className = '' }) {
   const sizes = {
     sm: 'w-6 h-6 border-2',
